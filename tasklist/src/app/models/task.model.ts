@@ -1,10 +1,10 @@
 export class Task {
-    action: string;
-    selected: boolean;
-    description: string;
-
     constructor(action: string, description:string);
-    constructor(action: string, description: string, selected?: boolean) {
+    constructor(
+        public action: string,
+        public description: string,
+        public selected?: boolean
+    ) {
         this.action = action;
         this.selected = selected;
         this.description = description;

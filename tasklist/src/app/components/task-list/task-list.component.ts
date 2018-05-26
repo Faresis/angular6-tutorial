@@ -9,9 +9,8 @@ import { TaskService } from '../../services/task.service';
 })
 export class TaskListComponent implements OnInit {
   tasks: Array<Task>;
-  taskService: TaskService;
 
-  constructor(taskService: TaskService) {
+  constructor(private taskService: TaskService) {
     this.taskService = taskService;
   }
 
