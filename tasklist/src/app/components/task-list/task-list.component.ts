@@ -3,11 +3,11 @@ import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
-export class AppComponent implements OnInit {
+export class TaskListComponent implements OnInit {
   tasks: Array<Task>;
   taskService: TaskService;
 
