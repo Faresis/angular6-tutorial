@@ -8,7 +8,7 @@ export class TaskService {
 
   constructor() { }
 
-  getTasks() {
+  getTasks(): Array<Task> {
     return [
       new Task("Task1", "Task1 detailed description"),
       new Task("Task2", "Task2 detailed description")

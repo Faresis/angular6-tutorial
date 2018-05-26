@@ -25,7 +25,7 @@ export class TaskListComponent implements OnInit {
       task.selected = true;
   }
 
-  selectedTask() {
+  selectedTask(): Task {
     return this.tasks.find(task => task.selected);
   }
 }
