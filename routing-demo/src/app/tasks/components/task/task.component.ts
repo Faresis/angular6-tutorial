@@ -22,4 +22,7 @@ export class TaskComponent implements OnInit {
     this.completeTask.emit(this.task);
   }
 
+  onEditTask() {
+    this.editTask.emit(this.task);
+  }
 }
