@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { User } from '../../models/user.model';
 
 @Component({
@@ -10,8 +10,11 @@ import { User } from '../../models/user.model';
 export class UserComponent {
   @Input() user: User;
 
+  @Output() editUser: EventEmitter<User> = new EventEmitter<User>();
+
   constructor() { }
 
   onEditUser() {
+    this.editUser.emit(this.user);
   }
 }
