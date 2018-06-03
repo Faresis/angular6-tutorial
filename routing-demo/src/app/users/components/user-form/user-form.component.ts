@@ -44,11 +44,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     if (user.id) {
       this.userArrayService.updateUser(user);
+      this.router.navigate(['/users', { editedUserID: user.id }]);
     } else {
       this.userArrayService.addUser(user);
+      this.goBack();
     }
     this.originalUser = {...this.user};
-    this.goBack();
   }
 
   goBack() {
