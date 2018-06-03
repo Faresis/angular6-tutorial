@@ -18,8 +18,8 @@ import { UsersModule } from './users/users.module';
     FormsModule,
     CoreModule,
     TasksModule,
+    UsersModule,
     AppRoutingModule,
-    UsersModule
   ],
   providers: [
   ],
