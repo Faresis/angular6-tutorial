@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TasksModule } from './tasks/tasks.module';
 
 import { AppComponent } from './app.component';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AppComponent } from './app.component';
     FormsModule,
     CoreModule,
     TasksModule,
-    AppRoutingModule
+    AppRoutingModule,
+    UsersModule
   ],
   providers: [
   ],
