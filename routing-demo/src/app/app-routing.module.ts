@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AboutComponent, PathNotFoundComponent } from './core';
+import { AboutComponent, MessagesComponent, PathNotFoundComponent } from './core';
 
 const routes: Routes = [
     {
@@ -12,6 +12,11 @@ const routes: Routes = [
         path: '',
         redirectTo: '/home',
         pathMatch: 'full'
+    },
+    {
+        path: 'messages',
+        component: MessagesComponent,
+        outlet: 'popup'
     },
     {
         path: '**',
