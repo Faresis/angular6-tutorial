@@ -1,12 +1,13 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AboutComponent, PathNotFoundComponent, MessagesComponent, MessagesService } from '.';
+import { AboutComponent, PathNotFoundComponent, MessagesComponent, MessagesService, AuthGuard } from '.';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [AboutComponent, PathNotFoundComponent, MessagesComponent]
+  declarations: [AboutComponent, PathNotFoundComponent, MessagesComponent],
+  providers: [AuthGuard, MessagesService],
 })
 export class CoreModule { 
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
