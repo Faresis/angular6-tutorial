@@ -9,6 +9,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { AppComponent } from './app.component';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AdminModule } from './admin/admin.module';
     UsersModule,
     AdminModule,
     AppRoutingModule,
+    SharedModule,
   ],
   providers: [
   ],
