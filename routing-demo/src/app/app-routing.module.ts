@@ -23,6 +23,14 @@ const routes: Routes = [
         outlet: 'popup'
     },
     {
+        path: 'admin',
+        loadChildren: 'app/admin/admin.module#AdminModule'
+    },
+    {
+        path: 'users',
+        loadChildren: 'app/users/users.module#UsersModule'
+    },
+    {
         path: '**',
         component: PathNotFoundComponent
     }

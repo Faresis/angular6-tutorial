@@ -5,7 +5,7 @@ import { CanDeactivateGuard } from './../core';
 
 const routes: Routes = [
   {
-    path: 'users',
+    path: '',
     component: UsersComponent,
     children: [
       {
