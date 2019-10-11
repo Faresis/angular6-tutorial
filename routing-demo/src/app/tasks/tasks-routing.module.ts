@@ -6,7 +6,17 @@ const routes: Routes = [
   {
     path: 'home',
     component: TaskListComponent,
-    data: { title: 'Task Manager' }
+    data: {
+      title: 'Task Manager',
+      meta: [{
+        name: 'description',
+        content: 'Task Manager Application. This is an ASP application'
+      },
+      {
+        name: 'keywords',
+        content: 'Angular tutorial, SPA Application, Routing'
+      }]
+    }
   },
   {
     path: 'edit/:taskId',
@@ -19,3 +29,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class TasksRoutingModule { }
+
