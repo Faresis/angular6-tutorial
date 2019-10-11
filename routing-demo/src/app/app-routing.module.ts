@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules, ExtraOptions } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
-import { AboutComponent, MessagesComponent, LoginComponent, PathNotFoundComponent, AuthGuard } from './core';
+import { AboutComponent, MessagesComponent, LoginComponent, PathNotFoundComponent, AuthGuard, CustomPreloadingStrategyService } from './core';
 
 const extraOptions: ExtraOptions = {
-  preloadingStrategy: PreloadAllModules,
+  preloadingStrategy: CustomPreloadingStrategyService,
   enableTracing: true
 };
 
@@ -34,7 +34,8 @@ const routes: Routes = [
     },
     {
         path: 'users',
-        loadChildren: 'app/users/users.module#UsersModule'
+        loadChildren: 'app/users/users.module#UsersModule',
+        data: { preload: true }
     },
     {
         path: '**',
