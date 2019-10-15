@@ -43,6 +43,19 @@ export class TaskPromiseService {
       .catch(this.handleError);
   }
 
+  createTask(task: TaskModel): Promise<TaskModel> {
+    const url = this.taskUrl;
+    const body = JSON.stringify(task);
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    return this.http.post(url, body, options)
+      .toPromise()
+      .then(resp => resp as TaskModel)
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occured', error);
     return Promise.reject(error.message || error);

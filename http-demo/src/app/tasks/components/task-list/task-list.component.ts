@@ -20,6 +20,11 @@ export class TaskListComponent implements OnInit {
     this.tasks = this.taskPromiseService.getTasks();
   }
 
+  onCreateTask() {
+    const link = ['/add'];
+    this.router.navigate(link);
+  }
+
   onCompleteTask(task: TaskModel): void {
     this.updateTask(task).catch(err => console.log(err));
   }
