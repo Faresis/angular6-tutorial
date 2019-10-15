@@ -29,6 +29,12 @@ export class TaskListComponent implements OnInit {
     this.updateTask(task).catch(err => console.log(err));
   }
 
+  onDeleteTask(task: TaskModel): void {
+    this.taskPromiseService.deleteTask(task)
+      .then(() => (this.tasks = this.taskPromiseService.getTasks()))
+      .catch(err => console.log(err));
+  }
+
   private async updateTask(task: TaskModel) {
     const updatedTask = await this.taskPromiseService.updateTask({ ...task, done:true });
     
