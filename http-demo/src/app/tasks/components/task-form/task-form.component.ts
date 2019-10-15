@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 import { TaskModel } from './../../models/task.model';
-import { TaskArrayService } from './../../services/task-array.service';
+import { TaskArrayService, TaskPromiseService } from './../../services';
 
 @Component({
   templateUrl: './task-form.component.html',
@@ -16,6 +16,7 @@ export class TaskFormComponent implements OnInit {
 
   constructor(
     private taskArrayService: TaskArrayService,
+    private taskPromiseService: TaskPromiseService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -32,7 +33,7 @@ export class TaskFormComponent implements OnInit {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) =>
-          this.taskArrayService.getTask(+params.get('taskID'))
+          this.taskPromiseService.getTask(+params.get('taskID'))
         )
       )
       .subscribe(observer);
