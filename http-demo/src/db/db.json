@@ -41,8 +41,8 @@
   "users": [
     {
       "id": 1,
-      "firstName": "Anna",
-      "lastName": "Borysova"
+      "firstName": "Anna1",
+      "lastName": "Borysova1"
     },
     {
       "id": 2,
@@ -66,8 +66,13 @@
     },
     {
       "id": 6,
-      "firstName": "Hunna",
+      "firstName": "Hunna2",
       "lastName": "Jackson"
+    },
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "id": 7
     }
   ]
 }
