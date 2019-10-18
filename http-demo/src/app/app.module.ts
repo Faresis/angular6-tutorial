@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SpinnerModule } from './widgets/spinner/spinner.module';
 
 import { AppComponent } from './app.component';
+import { httpInterceptorProviders } from './core/interceptors';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,9 +28,7 @@ import { AppComponent } from './app.component';
     HttpClientModule
   ],
   providers: [
-    // add this line if you don't have access to
-    // index.html and you want to set base tag
-    // { provide: APP_BASE_HREF, useValue: '/' }
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })
