@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { TaskModel } from './../../models/task.model';
 import { TaskPromiseService } from './../../services';
 
+import { Store } from '@ngrx/store';
+import { AppState } from './../../../core/+store';
+
 @Component({
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
@@ -13,10 +16,12 @@ export class TaskListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private taskPromiseService: TaskPromiseService
+    private taskPromiseService: TaskPromiseService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
+    console.log('We have a store! ', this.store);
     this.tasks = this.taskPromiseService.getTasks();
   }
 

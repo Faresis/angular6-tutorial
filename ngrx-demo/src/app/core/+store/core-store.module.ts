@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({})
   ],
   declarations: []
 })
