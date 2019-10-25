@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as TasksActions from './tasks.actions';
 
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { pluck, switchMap } from 'rxjs/operators';
 
 import { TaskPromiseService } from './../../../tasks/services';
 
@@ -24,6 +24,17 @@ export class TasksEffects {
       this.taskPromiseService.getTasks()
         .then(tasks => new TasksActions.GetTasksSuccess(tasks))
         .catch(err => new TasksActions.GetTasksError(err))
+    )
+  );
+
+  @Effect()
+  getTask$: Observable<Action> = this.actions$.pipe(
+    ofType<TasksActions.GetTask>(TasksActions.TasksActionTypes.GET_TASK),
+    pluck('payload'),
+    switchMap(payload => 
+      this.taskPromiseService.getTask(+payload)
+        .then(task => new TasksActions.GetTaskSuccess(task))
+        .catch(err => new TasksActions.GetTaskError(err))
     )
   );
 }
