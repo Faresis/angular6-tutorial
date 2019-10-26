@@ -1,16 +1,19 @@
+import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as TasksActions from './tasks.actions';
 
 import { Observable } from 'rxjs';
-import { pluck, switchMap } from 'rxjs/operators';
+import { concatMap, pluck, switchMap } from 'rxjs/operators';
+import { TaskModel } from '../../../tasks/models/task.model';
 
 import { TaskPromiseService } from './../../../tasks/services';
 
 @Injectable()
 export class TasksEffects {
   constructor(
+    private router: Router,
     private actions$: Actions,
     private taskPromiseService: TaskPromiseService
   ) {
@@ -35,6 +38,20 @@ export class TasksEffects {
       this.taskPromiseService.getTask(+payload)
         .then(task => new TasksActions.GetTaskSuccess(task))
         .catch(err => new TasksActions.GetTaskError(err))
+    )
+  );
+
+  @Effect()
+  updateTask$: Observable<Action> = this.actions$.pipe(
+    ofType<TasksActions.UpdateTask>(TasksActions.TasksActionTypes.UPDATE_TASK),
+    pluck('payload'),
+    concatMap((payload: TaskModel) => 
+      this.taskPromiseService.updateTask(payload)
+        .then(task => {
+          this.router.navigate(['/home']);
+          return new TasksActions.UpdateTaskSuccess(task);
+        })
+        .catch(err => new TasksActions.UpdateTaskError(err))
     )
   );
 }
