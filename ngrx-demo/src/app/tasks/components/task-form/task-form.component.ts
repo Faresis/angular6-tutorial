@@ -1,5 +1,5 @@
 import { Store, select } from '@ngrx/store';
-import { AppState, TasksState } from './../../../core/+store';
+import { AppState, TasksState, getTasksState } from './../../../core/+store';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import * as TasksActions from './../../../core/+store/tasks/tasks.actions';
@@ -27,7 +27,7 @@ export class TaskFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.task = new TaskModel();
-    this.tasksState$ = this.store.pipe(select('tasks'));
+    this.tasksState$ = this.store.pipe(select(getTasksState));
     this.sub = this.tasksState$.subscribe(tasksState => {
       if (tasksState.selectedTask) {
         this.task = tasksState.selectedTask
