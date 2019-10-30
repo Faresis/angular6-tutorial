@@ -1,5 +1,5 @@
 import { Store, select } from '@ngrx/store';
-import { AppState, TasksState, getTasksState } from './../../../core/+store';
+import { AppState, getSelectedTask } from './../../../core/+store';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import * as TasksActions from './../../../core/+store/tasks/tasks.actions';
@@ -16,7 +16,6 @@ import { AutoUnsubscribe } from './../../../core';
 @AutoUnsubscribe()
 export class TaskFormComponent implements OnInit {
   task: TaskModel;
-  tasksState$: Observable<TasksState>;
   private sub: Subscription;
 
   constructor(
@@ -26,14 +25,9 @@ export class TaskFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.task = new TaskModel();
-    this.tasksState$ = this.store.pipe(select(getTasksState));
-    this.sub = this.tasksState$.subscribe(tasksState => {
-      if (tasksState.selectedTask) {
-        this.task = tasksState.selectedTask
-      } else {
-        this.task = new TaskModel();
-      }
+    this.sub = this.store.pipe(select(getSelectedTask))
+    .subscribe(task => {
+      this.task = task ? task : new TaskModel();
     });
     this.route.paramMap.subscribe(params => {
       const id = params.get('taskID');
