@@ -11,6 +11,9 @@ import {
 } from './users-routing.module';
 import { UserComponent } from './components';
 import { UsersAPIProvider } from './users.config';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { UsersEffects, usersReducer } from './../core/+store';
 
 @NgModule({
   imports: [
@@ -18,9 +21,12 @@ import { UsersAPIProvider } from './users.config';
     CommonModule,
     FormsModule,
     UsersRoutingModule,
-    UsersServicesModule
+    StoreModule.forFeature('users', usersReducer),
+    UsersServicesModule,
+    EffectsModule.forFeature([UsersEffects])
   ],
   providers: [UsersAPIProvider],
   declarations: [usersRouterComponents, UserComponent]
 })
 export class UsersModule {}
+

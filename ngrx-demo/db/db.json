@@ -53,6 +53,11 @@
       "id": 3,
       "firstName": "Gennadiy",
       "lastName": "Dmitriev"
+    },
+    {
+      "firstName": "John - Updated",
+      "lastName": "Doe - Modified",
+      "id": 4
     }
   ]
 }
