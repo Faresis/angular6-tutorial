@@ -35,8 +35,6 @@ export class UserListComponent implements OnInit {
       },
       err => console.log(err)
     );
-
-    this.store.dispatch(new UsersActions.GetUsers());
   }
 
   onEditUser(user: UserModel) {
