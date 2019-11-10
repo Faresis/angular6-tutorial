@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as UsersActions from './users.actions';
+import * as RouterActions from './../router/router.actions';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, pluck, concatMap } from 'rxjs/operators';
 
@@ -14,8 +14,7 @@ export class UsersEffects {
 
   constructor(
     private actions$: Actions,
-    private userObservableService: UserObservableService,
-    private router: Router
+    private userObservableService: UserObservableService
   ) {
     console.log('[USERS EFFECTS]');
   }
@@ -49,10 +48,7 @@ export class UsersEffects {
     pluck('payload'),
     concatMap((payload: UserModel) =>
       this.userObservableService.updateUser(payload).pipe(
-        map(user => {
-          this.router.navigate(['/users', { editedUserID: user.id }]);
-          return new UsersActions.UpdateUserSuccess(user);
-        }),
+        map(user => new UsersActions.UpdateUserSuccess(user)),
         catchError(err => of(new UsersActions.UpdateUserError(err)))
       )
     )
@@ -64,10 +60,7 @@ export class UsersEffects {
     pluck('payload'),
     concatMap((payload: UserModel) =>
       this.userObservableService.createUser(payload).pipe(
-        map(user => {
-          this.router.navigate(['/users']);
-          return new UsersActions.CreateUserSuccess(user);
-        }),
+        map(user => new UsersActions.CreateUserSuccess(user)),
         catchError(err => of(new UsersActions.CreateUserError(err)))
       )
     )
@@ -83,6 +76,19 @@ export class UsersEffects {
         catchError(err => of(new UsersActions.DeleteUserError(err)))
       )
     )
+  );
+
+  @Effect()
+  createUpdateUserSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<UsersActions.CreateUser | UsersActions.UpdateUser>(
+      UsersActions.UsersActionTypes.CREATE_USER_SUCCESS,
+      UsersActions.UsersActionTypes.UPDATE_USER_SUCCESS
+    ),
+    pluck('payload'),
+    map((user: UserModel) => {
+      const path = ['/users', { editedUserID: user.id }];
+      return new RouterActions.Go({path});
+    })
   );
 }
 

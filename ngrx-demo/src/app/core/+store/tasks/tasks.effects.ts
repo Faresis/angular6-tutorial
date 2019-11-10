@@ -1,11 +1,11 @@
-import { Router } from '@angular/router';
+import * as RouterActions from './../router/router.actions';
 import { Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as TasksActions from './tasks.actions';
 
 import { Observable } from 'rxjs';
-import { concatMap, pluck, switchMap } from 'rxjs/operators';
+import { concatMap, pluck, switchMap, map } from 'rxjs/operators';
 import { TaskModel } from '../../../tasks/models/task.model';
 
 import { TaskPromiseService } from './../../../tasks/services';
@@ -13,7 +13,6 @@ import { TaskPromiseService } from './../../../tasks/services';
 @Injectable()
 export class TasksEffects {
   constructor(
-    private router: Router,
     private actions$: Actions,
     private taskPromiseService: TaskPromiseService
   ) {
@@ -36,10 +35,7 @@ export class TasksEffects {
     pluck('payload'),
     concatMap((payload: TaskModel) => 
       this.taskPromiseService.updateTask(payload)
-        .then(task => {
-          this.router.navigate(['/home']);
-          return new TasksActions.UpdateTaskSuccess(task);
-        })
+        .then(task => new TasksActions.UpdateTaskSuccess(task))
         .catch(err => new TasksActions.UpdateTaskError(err))
     )
   );
@@ -50,10 +46,7 @@ export class TasksEffects {
     pluck('payload'),
     concatMap((payload: TaskModel) =>
       this.taskPromiseService.createTask(payload)
-        .then(task => {
-          this.router.navigate(['/home']);
-          return new TasksActions.CreateTaskSuccess(task);
-        })
+        .then(task => new TasksActions.CreateTaskSuccess(task))
         .catch(err => new TasksActions.CreateTaskError(err))
     )
   );
@@ -67,6 +60,15 @@ export class TasksEffects {
         .then(() => new TasksActions.DeleteTaskSuccess(payload))
         .catch(err => new TasksActions.DeleteTaskError(err))
     )
+  );
+
+  @Effect()
+  createUpdateTaskSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<TasksActions.CreateTask | TasksActions.UpdateTask>(
+      TasksActions.TasksActionTypes.CREATE_TASK_SUCCESS,
+      TasksActions.TasksActionTypes.UPDATE_TASK_SUCCESS
+    ),
+    map(action => new RouterActions.Go({path: ['/home']}))
   );
 }
 

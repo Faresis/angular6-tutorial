@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { UserModel } from './../../models/user.model';
 import { Store, select } from '@ngrx/store';
 import { AutoUnsubscribe } from './../../../core/decorators';
 import * as UsersActions from './../../../core/+store/users/users.actions';
+import * as RouterActions from './../../../core/+store/router/router.actions';
 import { AppState, getUsers, getUsersError, getEditedUser } from './../../../core/+store';
 
 @Component({
@@ -20,7 +20,6 @@ export class UserListComponent implements OnInit {
   private editedUser: UserModel;
 
   constructor(
-    private router: Router,
     private store: Store<AppState>,
   ) {}
 
@@ -42,10 +41,9 @@ export class UserListComponent implements OnInit {
 
   onEditUser(user: UserModel) {
     const link = ['/users/edit', user.id];
-    this.router.navigate(link);
-    // or
-    // const link = ['edit', user.id];
-    // this.router.navigate(link, {relativeTo: this.route});
+    this.store.dispatch(new RouterActions.Go(
+      { path: link }
+    ));
   }
 
   isEdited(user: UserModel) {

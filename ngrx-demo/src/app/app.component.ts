@@ -1,3 +1,6 @@
+import { Store } from '@ngrx/store';
+import { AppState } from './core/+store';
+import * as RouterActions from './core/+store/router/router.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
@@ -21,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private metaService: Meta,
     private router: Router,
+    private store: Store<AppState>,
     public spinnerService: SpinnerService
   ) {}
 
@@ -33,7 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onDisplayMessages(): void {
-    this.router.navigate([{ outlets: { popup: ['messages'] } }]);
+    this.store.dispatch(new RouterActions.Go(
+      { path: [{ outlets: { popup: ['messages'] } }] }
+    ));
     this.messagesService.isDisplayed = true;
   }
 
