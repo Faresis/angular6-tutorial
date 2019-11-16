@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 
 @Component({
@@ -36,9 +36,9 @@ export class SignupReactiveFormComponent implements OnInit {
 
   private buildForm() {
     this.userForm = this.fb.group({
-      firstName: '',
-      lastName: { value: 'Doe', disabled: true },
-      email: [''],
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: [{ value: 'Doe', disabled: false }, [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'), Validators.email]],
       sendProducts: true
     });
   }
