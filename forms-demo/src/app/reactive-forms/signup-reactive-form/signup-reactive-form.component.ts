@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 
 @Component({
@@ -17,18 +17,30 @@ export class SignupReactiveFormComponent implements OnInit {
   );
   userForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
-    this.createForm();
+    // this.createForm();
     // this.setFormValues();
-    this.patchFormValues();
+    // this.patchFormValues();
+    this.buildForm();
   }
 
   onSave() {
     console.log(this.userForm);
     console.log(`Saved: ${JSON.stringify(this.userForm.value)}`);
     console.log(`Saved: ${JSON.stringify(this.userForm.getRawValue())}`);
+  }
+
+  private buildForm() {
+    this.userForm = this.fb.group({
+      firstName: '',
+      lastName: { value: 'Doe', disabled: true },
+      email: [''],
+      sendProducts: true
+    });
   }
 
   private createForm() {
