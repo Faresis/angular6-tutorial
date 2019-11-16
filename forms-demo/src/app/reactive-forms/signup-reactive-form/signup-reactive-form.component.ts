@@ -16,6 +16,10 @@ export class SignupReactiveFormComponent implements OnInit {
     false
   );
   userForm: FormGroup;
+  placeholder = {
+    email: 'Email (required)',
+    phone: 'Phone'
+  };
 
   constructor(
     private fb: FormBuilder
@@ -34,12 +38,37 @@ export class SignupReactiveFormComponent implements OnInit {
     console.log(`Saved: ${JSON.stringify(this.userForm.getRawValue())}`);
   }
 
+  onSetNotification(notifyVia: string) {
+    const phoneControl = this.userForm.get('phone');
+    const emailControl = this.userForm.get('email');
+
+    if (notifyVia === 'text') {
+      phoneControl.setValidators(Validators.required);
+      emailControl.clearValidators();
+      this.placeholder.email = 'Email';
+      this.placeholder.phone = 'Phone (required)';
+    } else {
+      emailControl.setValidators([
+        Validators.required,
+        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'),
+        Validators.email
+      ]);
+      phoneControl.clearValidators();
+      this.placeholder.email = 'Email (required)';
+      this.placeholder.phone = 'Phone';
+    }
+    phoneControl.updateValueAndValidity();
+    emailControl.updateValueAndValidity();
+  }
+
   private buildForm() {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: [{ value: 'Doe', disabled: false }, [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'), Validators.email]],
-      sendProducts: true
+      sendProducts: true,
+      phone: '',
+      notification: 'email',
     });
   }
 
