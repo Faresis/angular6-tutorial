@@ -9,13 +9,20 @@ import { UserModel } from './../../models/user.model';
 })
 export class SignupReactiveFormComponent implements OnInit {
   countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
-  user: UserModel = new UserModel();
+  user: UserModel = new UserModel(
+    'John',
+    'Doe',
+    'j.doe@gmail.com',
+    false
+  );
   userForm: FormGroup;
 
   constructor() { }
 
   ngOnInit() {
     this.createForm();
+    // this.setFormValues();
+    this.patchFormValues();
   }
 
   onSave() {
@@ -30,6 +37,22 @@ export class SignupReactiveFormComponent implements OnInit {
       lastName: new FormControl(),
       email: new FormControl(),
       sendProducts: new FormControl(true)
+    });
+  }
+
+  private setFormValues() {
+    this.userForm.setValue({
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      email: this.user.email,
+      sendProducts: this.user.sendProducts
+    });
+  }
+
+  private patchFormValues() {
+    this.userForm.patchValue({
+      firstName: this.user.firstName,
+      lastName: this.user.lastName
     });
   }
 }
