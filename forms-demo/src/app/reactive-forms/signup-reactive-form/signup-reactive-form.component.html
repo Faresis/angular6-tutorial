@@ -60,7 +60,8 @@
                                id="emailId"
                                type="email"
                                placeholder="{{placeholder.email}}"
-                               formControlName="email" />
+                               formControlName="email"
+                               appAsyncEmailValidator />
                         <span class="help-block" *ngIf="(userForm.get('email').touched ||
                               userForm.get('email').dirty) && userForm.get('email').errors">
                           <span *ngIf="userForm.get('email').hasError('required')">
