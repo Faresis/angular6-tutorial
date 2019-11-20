@@ -21,6 +21,8 @@ export class SignupReactiveFormComponent implements OnInit {
     email: 'Email (required)',
     phone: 'Phone'
   };
+  rMin = 1;
+  rMax = 3;
 
   constructor(
     private fb: FormBuilder
@@ -71,7 +73,7 @@ export class SignupReactiveFormComponent implements OnInit {
       sendProducts: true,
       phone: '',
       notification: 'email',
-      serviceLevel: ['', CustomValidators.serviceLevel],
+      serviceLevel: ['', CustomValidators.serviceLevelRange(this.rMin, this.rMax)],
     });
   }
 
