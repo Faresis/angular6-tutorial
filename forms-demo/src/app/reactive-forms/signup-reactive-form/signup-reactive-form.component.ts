@@ -64,7 +64,8 @@ export class SignupReactiveFormComponent implements OnInit {
 
   private buildForm() {
     this.userForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      //firstName: ['', [Validators.required, Validators.minLength(3)]],
+      firstName: new FormControl('', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'}),
       lastName: [{ value: 'Doe', disabled: false }, [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'), Validators.email]],
       sendProducts: true,
@@ -76,9 +77,18 @@ export class SignupReactiveFormComponent implements OnInit {
 
   private createForm() {
     this.userForm = new FormGroup({
-      firstName: new FormControl(),
+      firstName: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(3)],
+        updateOn: 'blur'
+      }),
       lastName: new FormControl(),
       email: new FormControl(),
+      phone: new FormControl(),
+      notification: new FormControl('email'),
+      serviceLevel: new FormControl('', {
+        validators: [CustomValidators.serviceLevel],
+        updateOn: 'blur'
+      }),
       sendProducts: new FormControl(true)
     });
   }
