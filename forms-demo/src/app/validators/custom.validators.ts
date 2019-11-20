@@ -1,4 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 export function checkServiceLevel(c:AbstractControl, min: number = 1, max: number = 5): { [key: string]: boolean } | null {
   if (c.value !== undefined && (Number.isNaN(c.value) || c.value < min || c.value > max)) {
@@ -17,6 +18,23 @@ export class CustomValidators {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
       return checkServiceLevel(c, min, max);
     };
+  }
+
+  static asyncEmailPromiseValidator(c: AbstractControl): Promise<{ [key: string]: any } | null> |
+    Observable<{ [key: string]: any } | null> {
+    const email = c.value;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (email === 'existsemail@example.com') {
+          resolve({
+            asyncEmailInvalid: true
+          });
+        } else {
+          resolve(null);
+        }
+      }, 2000);
+    });
   }
 }
 

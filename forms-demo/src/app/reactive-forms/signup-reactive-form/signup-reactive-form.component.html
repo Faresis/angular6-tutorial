@@ -72,6 +72,9 @@
                           <span *ngIf="userForm.get('email').hasError('email')">
                             Please enter a valid email address.
                           </span>
+                          <span *ngIf="userForm.get('email').hasError('asyncEmailInvalid')">
+                            This email already exists. Please use a different email.
+                          </span>
                         </span>
                     </div>
                 </div>
