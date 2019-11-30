@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 import { CustomValidators } from './../../validators';
 import { Subscription } from 'rxjs';
@@ -51,6 +51,10 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  get addresses(): FormArray {
+    return <FormArray>this.userForm.get('addresses');
   }
 
   onSave() {
@@ -156,7 +160,7 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
         confirmEmail: ['', Validators.required],
       }, { validator: CustomValidators.emailMatcher}),
       sendProducts: true,
-      addresses: this.buildAddresses(),
+      addresses: this.fb.array([this.buildAddresses()]),
       phone: '',
       notification: 'email',
       serviceLevel: [''],
