@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 import { CustomValidators } from './../../validators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup-reactive-form',
   templateUrl: './signup-reactive-form.component.html',
   styleUrls: ['./signup-reactive-form.component.css']
 })
-export class SignupReactiveFormComponent implements OnInit {
+export class SignupReactiveFormComponent implements OnInit, OnDestroy {
   countries: Array<string> = ['Ukraine', 'Armenia', 'Belarus', 'Hungary', 'Kazakhstan', 'Poland', 'Russia'];
   user: UserModel = new UserModel(
     'John',
@@ -24,6 +25,7 @@ export class SignupReactiveFormComponent implements OnInit {
   };
   rMin = 1;
   rMax = 3;
+  private sub: Subscription;
 
   constructor(
     private fb: FormBuilder
@@ -34,6 +36,11 @@ export class SignupReactiveFormComponent implements OnInit {
     // this.setFormValues();
     // this.patchFormValues();
     this.buildForm();
+    this.watchValueChanges();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   onSave() {
@@ -42,7 +49,7 @@ export class SignupReactiveFormComponent implements OnInit {
     console.log(`Saved: ${JSON.stringify(this.userForm.getRawValue())}`);
   }
 
-  onSetNotification(notifyVia: string) {
+  private setNotification(notifyVia: string) {
     const controls = new Map();
     controls.set('phoneControl', this.userForm.get('phone'));
     controls.set('emailGroup', this.userForm.get('emailGroup'));
@@ -84,6 +91,10 @@ export class SignupReactiveFormComponent implements OnInit {
       };
     }
     controls.forEach(control => control.updateValueAndValidity());
+  }
+
+  private watchValueChanges() {
+    this.sub = this.userForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
   }
 
   private buildForm() {
