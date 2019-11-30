@@ -68,6 +68,10 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     this.setValidationMessage(emailControl, 'email');
   }
 
+  onAddAddress(): void {
+    this.addresses.push(this.buildAddresses());
+  }
+
   private buildAddresses(): FormGroup {
     return this.fb.group({
       addressType: 'home',
