@@ -51,8 +51,7 @@
 
                 <div formGroupName="emailGroup" [ngClass]="{'has-error': userForm.get('emailGroup').errors}">
                 <div class="form-group"
-                     [ngClass]="{'has-error': (userForm.get('emailGroup.email').touched ||
-                                userForm.get('emailGroup.email').dirty) && !userForm.get('emailGroup.email').valid }">
+                     [ngClass]="{'has-error': validationMessage }">
                     <label class="col-md-2 control-label"
                         for="emailId">Email</label>
 
@@ -62,22 +61,11 @@
                                type="email"
                                placeholder="{{placeholder.email}}"
                                formControlName="email"
-                               appAsyncEmailValidator />
-                        <span class="help-block" *ngIf="(userForm.get('emailGroup.email').touched ||
-                              userForm.get('emailGroup.email').dirty) && userForm.get('emailGroup.email').errors">
-                          <span *ngIf="userForm.get('emailGroup.email').hasError('required')">
-                            Please enter email address.
-                          </span>
-                          <span *ngIf="userForm.get('emailGroup.email').hasError('pattern')">
-                            Please enter a valid email address.
-                          </span>
-                          <span *ngIf="userForm.get('emailGroup.email').hasError('email')">
-                            Please enter a valid email address.
-                          </span>
-                          <span *ngIf="userForm.get('emailGroup.email').hasError('asyncEmailInvalid')">
-                            This email already exists. Please use a different email.
-                          </span>
-                        </span>
+                               appAsyncEmailValidator
+                               (blur)="onBlur()" />
+                      <span class="help-block" *ngIf="validationMessage">
+                        {{validationMessage}}
+                      </span>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { UserModel } from './../../models/user.model';
 import { CustomValidators } from './../../validators';
 import { Subscription } from 'rxjs';
@@ -18,6 +18,7 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     false
   );
   userForm: FormGroup;
+  validationMessage: string;
   placeholder = {
     email: 'Email (required)',
     confirmEmail: 'Confirm Email (required)',
@@ -26,6 +27,14 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
   rMin = 1;
   rMax = 3;
   private sub: Subscription;
+  private validationMessagesMap = {
+    email: {
+      required: 'Please enter your email address.',
+      pattern: 'Please enter a valid email address.',
+      email: 'Please enter a valid email address.',
+      asyncEmailInvalid: 'This email already exists. Please enter a different email address.'
+    }
+  };
 
   constructor(
     private fb: FormBuilder
@@ -47,6 +56,21 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     console.log(this.userForm);
     console.log(`Saved: ${JSON.stringify(this.userForm.value)}`);
     console.log(`Saved: ${JSON.stringify(this.userForm.getRawValue())}`);
+  }
+
+  onBlur() {
+    const emailControl = this.userForm.get('emailGroup.email');
+    this.setValidationMessage(emailControl, 'email');
+  }
+
+  private setValidationMessage(c: AbstractControl, controlName: string) {
+    this.validationMessage = '';
+
+    if ((c.touched || c.dirty) && c.errors) {
+      this.validationMessage = Object.keys(c.errors)
+        .map(key => this.validationMessagesMap[controlName][key])
+        .join(' ');
+    }
   }
 
   private setNotification(notifyVia: string) {
@@ -95,6 +119,12 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
 
   private watchValueChanges() {
     this.sub = this.userForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
+
+    const emailControl = this.userForm.get('emailGroup.email');
+    const sub = emailControl.valueChanges.subscribe(value => 
+      this.setValidationMessage(emailControl, 'email')
+    );
+    this.sub.add(sub);
   }
 
   private buildForm() {
