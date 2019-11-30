@@ -64,6 +64,17 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
     this.setValidationMessage(emailControl, 'email');
   }
 
+  private buildAddresses(): FormGroup {
+    return this.fb.group({
+      addressType: 'home',
+      country: '',
+      city: '',
+      zip: '',
+      street1: '',
+      street2: ''
+    });
+  }
+
   private setValidationMessage(c: AbstractControl, controlName: string) {
     this.validationMessage = '';
 
@@ -145,14 +156,7 @@ export class SignupReactiveFormComponent implements OnInit, OnDestroy {
         confirmEmail: ['', Validators.required],
       }, { validator: CustomValidators.emailMatcher}),
       sendProducts: true,
-      addresses: this.fb.group({
-        addressType: 'home',
-        country: '',
-        city: '',
-        zip: '',
-        street1: '',
-        street2: ''
-      }),
+      addresses: this.buildAddresses(),
       phone: '',
       notification: 'email',
       serviceLevel: [''],
